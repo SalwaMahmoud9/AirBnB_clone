@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """Defines a base model class."""
 import json
-import uuid
+from uuid import uuid4
 from datetime import datetime
 
 
@@ -15,7 +15,7 @@ class BaseModel(object):
             created_at: created_at of the Base.
             updated_at: iupdated_atd of the Base.
         """
-        self.id = uuid.uuid4()
+        self.id = str(uuid4())
         self.created_at = datetime.now()
         self.updated_at = datetime.now()
 

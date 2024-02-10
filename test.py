@@ -46,6 +46,23 @@ class TestBaseModel_instance(unittest.TestCase):
 
 class TestBaseModel_save(unittest.TestCase):
     """Unittests save BaseModel class."""
+    @classmethod
+    def setUp(self):
+        try:
+            os.rename("file.json", "tmp")
+        except IOError:
+            pass
+
+    @classmethod
+    def tearDown(self):
+        try:
+            os.remove("file.json")
+        except IOError:
+            pass
+        try:
+            os.rename("tmp", "file.json")
+        except IOError:
+            pass
 
     def test_save(self):
         model = BaseModel()
@@ -71,24 +88,6 @@ class TestBaseModel_save(unittest.TestCase):
         modelId = "BaseModel." + model.id
         with open("file.json", "r") as f:
             self.assertIn(modelId, f.read())
-
-    @classmethod
-    def setUp(self):
-        try:
-            os.rename("file.json", "tmp")
-        except IOError:
-            pass
-
-    @classmethod
-    def tearDown(self):
-        try:
-            os.remove("file.json")
-        except IOError:
-            pass
-        try:
-            os.rename("tmp", "file.json")
-        except IOError:
-            pass
 
 
 class TestBaseModel_to_dict(unittest.TestCase):

@@ -40,6 +40,9 @@ class TestBaseModel_instance(unittest.TestCase):
         model2 = BaseModel()
         self.assertLess(model1.updated_at, model2.updated_at)
 
+    def test_storage_new(self):
+        self.assertIn(BaseModel(), models.storage.all().values())
+
 
 class TestBaseModel_save(unittest.TestCase):
     """Unittests save BaseModel class."""

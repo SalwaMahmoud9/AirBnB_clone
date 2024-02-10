@@ -29,6 +29,7 @@ class BaseModel(object):
             self.id = str(uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
+            models.storage.new(self)
 
     def __str__(self):
         """Return class name, id, and the dictionary"""
@@ -38,6 +39,7 @@ class BaseModel(object):
     def save(self):
         """save"""
         self.updated_at = datetime.now()
+        models.storage.save()
 
     def to_dict(self):
         """Return dictionary"""

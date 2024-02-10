@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """Defines a base model class."""
+import models
 import json
 from uuid import uuid4
 from datetime import datetime

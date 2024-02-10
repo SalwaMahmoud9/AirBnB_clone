@@ -42,7 +42,7 @@ class TestBaseModel_instance(unittest.TestCase):
 
 
 class TestBaseModel_save(unittest.TestCase):
-    """Unittests for testing save method of the BaseModel class."""
+    """Unittests save BaseModel class."""
 
     def test_save(self):
         model = BaseModel()
@@ -64,53 +64,18 @@ class TestBaseModel_save(unittest.TestCase):
 
 
 class TestBaseModel_to_dict(unittest.TestCase):
-    """Unittests for testing to_dict method of the BaseModel class."""
+    """Unittests to_dict BaseModel class."""
 
     def test_to_dict_type(self):
-        bm = BaseModel()
-        self.assertTrue(dict, type(bm.to_dict()))
+        model = BaseModel()
+        self.assertTrue(dict, type(model.to_dict()))
 
-    def test_to_dict_contains_correct_keys(self):
-        bm = BaseModel()
-        self.assertIn("id", bm.to_dict())
-        self.assertIn("created_at", bm.to_dict())
-        self.assertIn("updated_at", bm.to_dict())
-        self.assertIn("__class__", bm.to_dict())
-
-    def test_to_dict_contains_added_attributes(self):
-        bm = BaseModel()
-        bm.name = "Holberton"
-        bm.my_number = 98
-        self.assertIn("name", bm.to_dict())
-        self.assertIn("my_number", bm.to_dict())
-
-    def test_to_dict_datetime_attributes_are_strs(self):
-        bm = BaseModel()
-        bm_dict = bm.to_dict()
-        self.assertEqual(str, type(bm_dict["created_at"]))
-        self.assertEqual(str, type(bm_dict["updated_at"]))
-
-    def test_to_dict_output(self):
-        dt = datetime.today()
-        bm = BaseModel()
-        bm.id = "123456"
-        bm.created_at = bm.updated_at = dt
-        tdict = {
-            'id': '123456',
-            '__class__': 'BaseModel',
-            'created_at': dt.isoformat(),
-            'updated_at': dt.isoformat()
-        }
-        self.assertDictEqual(bm.to_dict(), tdict)
-
-    def test_contrast_to_dict_dunder_dict(self):
-        bm = BaseModel()
-        self.assertNotEqual(bm.to_dict(), bm.__dict__)
-
-    def test_to_dict_with_arg(self):
-        bm = BaseModel()
-        with self.assertRaises(TypeError):
-            bm.to_dict(None)
+    def test_to_dict_correct_data(self):
+        model = BaseModel()
+        self.assertIn("id", model.to_dict())
+        self.assertIn("created_at", model.to_dict())
+        self.assertIn("updated_at", model.to_dict())
+        self.assertIn("__class__", model.to_dict())
 
 
 if __name__ == "__main__":

@@ -1,51 +1,41 @@
 #!/usr/bin/python3
-"""Defines unittests for models/base_model.py."""
+"""Defines unittests for models/engine/file_storage.py.
+Unittest classes:
+    TestFileStorage_instantiation
+    TestFileStorage_methods
+"""
 import os
+import json
 import models
 import unittest
 from datetime import datetime
-from time import sleep
 from models.base_model import BaseModel
+from models.engine.file_storage import FileStorage
 
 
-class TestBaseModel_instance(unittest.TestCase):
-    """Unittest BaseModel class."""
+class TestFileStorage_instance(unittest.TestCase):
+    """Unittest FileStorage class."""
 
-    def test_base_instance(self):
-        self.assertEqual(BaseModel, type(BaseModel()))
+    def test_FileStorage_instance(self):
+        self.assertEqual(type(FileStorage()), FileStorage)
 
-    def test_id_is_str(self):
-        self.assertEqual(str, type(BaseModel().id))
+    def test_FileStorage_instance1(self):
+        with self.assertRaises(TypeError):
+            FileStorage(None)
 
-    def test_created_at_is_datetime(self):
-        self.assertEqual(datetime, type(BaseModel().created_at))
+    def test_FileStorage_file__FileStorage__file_path(self):
+        self.assertEqual(str, type(FileStorage._FileStorage__file_path))
 
-    def test_updated_at_is_datetime(self):
-        self.assertEqual(datetime, type(BaseModel().updated_at))
+    def testFileStorage_objects_FileStorage__objects(self):
+        self.assertEqual(dict, type(FileStorage._FileStorage__objects))
 
-    def test_uniqueIds(self):
-        model1 = BaseModel()
-        model2 = BaseModel()
-        self.assertNotEqual(model1.id, model2.id)
-
-    def test_diff_created_at(self):
-        model1 = BaseModel()
-        sleep(1)
-        model2 = BaseModel()
-        self.assertLess(model1.created_at, model2.created_at)
-
-    def test_diff_updated_at(self):
-        model1 = BaseModel()
-        sleep(1)
-        model2 = BaseModel()
-        self.assertLess(model1.updated_at, model2.updated_at)
-
-    def test_storage_new(self):
-        self.assertIn(BaseModel(), models.storage.all().values())
+    def test_storage_init(self):
+        self.assertEqual(type(models.storage), FileStorage)
 
 
-class TestBaseModel_save(unittest.TestCase):
-    """Unittests save BaseModel class."""
+class TestFileStorage_methods(unittest.TestCase):
+    """Unittest methods FileStorage class."""
+
     @classmethod
     def setUp(self):
         try:
@@ -63,46 +53,54 @@ class TestBaseModel_save(unittest.TestCase):
             os.rename("tmp", "file.json")
         except IOError:
             pass
+        FileStorage._FileStorage__objects = {}
+
+    def test_all(self):
+        self.assertEqual(dict, type(models.storage.all()))
+
+    def test_all_data(self):
+        with self.assertRaises(TypeError):
+            models.storage.all(None)
+
+    def test_new(self):
+        model = BaseModel()
+        models.storage.new(model)
+        self.assertIn("BaseModel." + model.id, models.storage.all().keys())
+        self.assertIn(model, models.storage.all().values())
+
+    def test_new(self):
+        with self.assertRaises(TypeError):
+            models.storage.new(BaseModel(), 1)
 
     def test_save(self):
         model = BaseModel()
-        sleep(1)
-        first_updated_at = model.updated_at
-        model.save()
-        self.assertLess(first_updated_at, model.updated_at)
-
-    def test_more_saves(self):
-        model1 = BaseModel()
-        sleep(1)
-        updated_at1 = model1.updated_at
-        model1.save()
-        updated_at2 = model1.updated_at
-        self.assertLess(updated_at1, updated_at2)
-        sleep(1)
-        model1.save()
-        self.assertLess(updated_at2, model1.updated_at)
-
-    def test_update_file(self):
-        model = BaseModel()
-        model.save()
-        modelId = "BaseModel." + model.id
+        models.storage.new(model)
+        models.storage.save()
+        save_text = ""
         with open("file.json", "r") as f:
-            self.assertIn(modelId, f.read())
+            save_text = f.read()
+            self.assertIn("BaseModel." + model.id, save_text)
 
+    def test_save_without_data(self):
+        with self.assertRaises(TypeError):
+            models.storage.save(None)
 
-class TestBaseModel_to_dict(unittest.TestCase):
-    """Unittests to_dict BaseModel class."""
+    def test_reload(self):
+        a_storage = FileStorage()
+        try:
+            os.remove("file.json")
+        except FileNotFoundError:
+            pass
+        with open("file.json", "w") as f:
+            f.write("{}")
+        with open("file.json", "r") as r:
+            for line in r:
+                self.assertEqual(line, "{}")
+        self.assertIs(a_storage.reload(), None)
 
-    def test_to_dict_type(self):
-        model = BaseModel()
-        self.assertTrue(dict, type(model.to_dict()))
-
-    def test_to_dict_correct_data(self):
-        model = BaseModel()
-        self.assertIn("id", model.to_dict())
-        self.assertIn("created_at", model.to_dict())
-        self.assertIn("updated_at", model.to_dict())
-        self.assertIn("__class__", model.to_dict())
+    def test_reload_with_data(self):
+        with self.assertRaises(TypeError):
+            models.storage.reload(None)
 
 
 if __name__ == "__main__":

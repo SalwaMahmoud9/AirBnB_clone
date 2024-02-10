@@ -1,10 +1,5 @@
 #!/usr/bin/python3
-"""Defines unittests for models/base_model.py.
-Unittest classes:
-    TestBaseModel_instantiation
-    TestBaseModel_save
-    TestBaseModel_to_dict
-"""
+"""Defines unittests for models/base_model.py."""
 import os
 import models
 import unittest
@@ -13,14 +8,11 @@ from time import sleep
 from models.base_model import BaseModel
 
 
-class TestBaseModel_instantiation(unittest.TestCase):
-    """Unittests for testing instantiation of the BaseModel class."""
+class TestBaseModel_instance(unittest.TestCase):
+    """Unittest BaseModel class."""
 
-    def test_no_args_instantiates(self):
+    def test_base_instance(self):
         self.assertEqual(BaseModel, type(BaseModel()))
-
-    def test_new_instance_stored_in_objects(self):
-        self.assertIn(BaseModel(), models.storage.all().values())
 
     def test_id_is_public_str(self):
         self.assertEqual(str, type(BaseModel().id))

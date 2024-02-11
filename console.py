@@ -12,25 +12,16 @@ class HBNBCommand(cmd.Cmd):
     """
 
     prompt = "(hbnb) "
-    __classes = {
-        "BaseModel",
-        "User",
-        "State",
-        "City",
-        "Place",
-        "Amenity",
-        "Review"
-    }
 
     def emptyline(self):
         """Shouldn’t execute anything."""
         pass
 
-    def do_quit(self, arg):
+    def quit(self, arg):
         """Quit command to exit the program."""
         return True
 
-    def do_EOF(self, arg):
+    def EOF(self, arg):
         """EOF signal to exit the program."""
         print("")
         return True

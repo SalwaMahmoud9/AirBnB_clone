@@ -23,6 +23,15 @@ class TestReview_instance(unittest.TestCase):
     def test_updated_at_is_datetime(self):
         self.assertEqual(datetime, type(Review().updated_at))
 
+    def test_place_id_is_str(self):
+        self.assertEqual(str, type(Review().place_id))
+
+    def test_user_id_is_str(self):
+        self.assertEqual(str, type(Review().user_id))
+
+    def test_text_is_str(self):
+        self.assertEqual(str, type(Review().text))
+
     def test_uniqueIds(self):
         model1 = Review()
         model2 = Review()
@@ -47,11 +56,11 @@ class TestReview_instance(unittest.TestCase):
         dt = datetime.today()
         dt_repr = repr(dt)
         model = Review()
-        model.id = "123456"
+        model.id = "100000"
         model.created_at = model.updated_at = dt
         modelstr = model.__str__()
-        self.assertIn("[Review] (123456)", modelstr)
-        self.assertIn("'id': '123456'", modelstr)
+        self.assertIn("[Review] (100000)", modelstr)
+        self.assertIn("'id': '100000'", modelstr)
         self.assertIn("'created_at': " + dt_repr, modelstr)
         self.assertIn("'updated_at': " + dt_repr, modelstr)
 
@@ -115,6 +124,13 @@ class TestReview_to_dict(unittest.TestCase):
         self.assertIn("created_at", model.to_dict())
         self.assertIn("updated_at", model.to_dict())
         self.assertIn("__class__", model.to_dict())
+
+    def test_to_dict(self):
+        model = Review()
+        model.name = "name"
+        model.age = 100
+        self.assertEqual("name", model.name)
+        self.assertIn("age", model.to_dict())
 
 
 if __name__ == "__main__":

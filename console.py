@@ -19,11 +19,13 @@ class HBNBCommand(cmd.Cmd):
 
     def quit(self, arg):
         """Quit command to exit the program."""
+        exit(1)
         return True
 
     def EOF(self, arg):
         """EOF signal to exit the program."""
         print("")
+        exit(1)
         return True
 
 if __name__ == "__main__":

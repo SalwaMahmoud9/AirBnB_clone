@@ -32,6 +32,9 @@ class HBNBCommand(cmd.Cmd):
     """
 
     prompt = "(hbnb) "
+    __classes = {
+        "BaseModel"
+    }
 
     def do_quit(self, args):
         '''Quit command to exit the program

@@ -128,7 +128,7 @@ class TestUser_to_dict(unittest.TestCase):
         self.assertIn("updated_at", model.to_dict())
         self.assertIn("__class__", model.to_dict())
 
-    def test_to_dict_contains_added_attributes(self):
+    def test_to_dict(self):
         model = User()
         model.name = "name"
         model.age = 100

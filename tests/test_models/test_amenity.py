@@ -23,6 +23,10 @@ class TestAmenity_instance(unittest.TestCase):
     def test_updated_at_is_datetime(self):
         self.assertEqual(datetime, type(Amenity().updated_at))
 
+    def test_name_is_str(self):
+        model = Amenity()
+        self.assertEqual(str, type(Amenity.name))
+
     def test_uniqueIds(self):
         model1 = Amenity()
         model2 = Amenity()
@@ -47,11 +51,11 @@ class TestAmenity_instance(unittest.TestCase):
         dt = datetime.today()
         dt_repr = repr(dt)
         model = Amenity()
-        model.id = "123456"
+        model.id = "100000"
         model.created_at = model.updated_at = dt
         modelstr = model.__str__()
-        self.assertIn("[Amenity] (123456)", modelstr)
-        self.assertIn("'id': '123456'", modelstr)
+        self.assertIn("[Amenity] (100000)", modelstr)
+        self.assertIn("'id': '100000'", modelstr)
         self.assertIn("'created_at': " + dt_repr, modelstr)
         self.assertIn("'updated_at': " + dt_repr, modelstr)
 
@@ -115,6 +119,13 @@ class TestAmenity_to_dict(unittest.TestCase):
         self.assertIn("created_at", model.to_dict())
         self.assertIn("updated_at", model.to_dict())
         self.assertIn("__class__", model.to_dict())
+
+    def test_to_dict(self):
+        model = Amenity()
+        model.name = "name"
+        model.age = 100
+        self.assertEqual("name", model.name)
+        self.assertIn("age", model.to_dict())
 
 
 if __name__ == "__main__":

@@ -13,22 +13,7 @@ from models.amenity import Amenity
 from models.review import Review
 
 
-def parse(arg):
-    curly_braces = re.search(r"\{(.*?)\}", arg)
-    brackets = re.search(r"\[(.*?)\]", arg)
-    if curly_braces is None:
-        if brackets is None:
-            return [i.strip(",") for i in split(arg)]
-        else:
-            lexer = split(arg[:brackets.span()[0]])
-            retl = [i.strip(",") for i in lexer]
-            retl.append(brackets.group())
-            return retl
-    else:
-        lexer = split(arg[:curly_braces.span()[0]])
-        retl = [i.strip(",") for i in lexer]
-        retl.append(curly_braces.group())
-        return retl
+
 
 
 class HBNBCommand(cmd.Cmd):
@@ -47,6 +32,10 @@ class HBNBCommand(cmd.Cmd):
         "Amenity",
         "Review"
     }
+    def emptyline(self):
+        '''enter dont execute anything.
+        '''
+        pass
 
     def do_quit(self, args):
         '''Quit command to exit the program.
@@ -58,11 +47,6 @@ class HBNBCommand(cmd.Cmd):
         '''Handles end of file.
         '''
         return True
-
-    def emptyline(self):
-        '''enter dont execute anything.
-        '''
-        pass
 
     def do_create(self, line):
         """Creates a new instance of BaseModel.
@@ -96,7 +80,24 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
         except NameError:
             print("** class doesn't exist **")
-
+            
+    def parse(arg):
+        curly_braces = re.search(r"\{(.*?)\}", arg)
+        brackets = re.search(r"\[(.*?)\]", arg)
+        if curly_braces is None:
+            if brackets is None:
+                return [i.strip(",") for i in split(arg)]
+            else:
+                lexer = split(arg[:brackets.span()[0]])
+                retl = [i.strip(",") for i in lexer]
+                retl.append(brackets.group())
+                return retl
+        else:
+            lexer = split(arg[:curly_braces.span()[0]])
+            retl = [i.strip(",") for i in lexer]
+            retl.append(curly_braces.group())
+            return retl
+    
     def do_show(self, arg):
         """Prints the string representation of 
         an instance based on the class name and id."""

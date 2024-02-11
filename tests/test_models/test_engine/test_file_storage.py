@@ -3,6 +3,7 @@
 """
 
 import os
+import pep8
 import json
 import models
 import unittest
@@ -53,6 +54,14 @@ class TestFileStorage_functions(unittest.TestCase):
             pass
         FileStorage._FileStorage__objects = {}
 
+    def test_style_check(self):
+        """
+        Tests pep8 style
+        """
+        style = pep8.StyleGuide(quiet=True)
+        p = style.check_files(['models/engine/file_storage.py'])
+        self.assertEqual(p.total_errors, 0, "fix pep8")
+
     def test_all(self):
         self.assertEqual(dict, type(models.storage.all()))
 
@@ -62,6 +71,7 @@ class TestFileStorage_functions(unittest.TestCase):
 
     def test_new(self):
         bm = BaseModel()
+        us = User()
         models.storage.new(bm)
         self.assertIn("BaseModel." + bm.id, models.storage.all().keys())
         self.assertIn(bm, models.storage.all().values())

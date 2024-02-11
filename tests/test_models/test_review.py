@@ -1,63 +1,63 @@
 #!/usr/bin/python3
-"""Defines unittests for models/amenity.py."""
+"""Defines unittests for models/review.py."""
 import os
 import models
 import unittest
 from datetime import datetime
 from time import sleep
-from models.amenity import Amenity
+from models.review import Review
 
 
-class TestAmenity_instance(unittest.TestCase):
-    """Unittest Amenity class."""
+class TestReview_instance(unittest.TestCase):
+    """Unittest Review class."""
 
-    def test_amenity_instance(self):
-        self.assertEqual(Amenity, type(Amenity()))
+    def test_review_instance(self):
+        self.assertEqual(Review, type(Review()))
 
     def test_id_is_str(self):
-        self.assertEqual(str, type(Amenity().id))
+        self.assertEqual(str, type(Review().id))
 
     def test_created_at_is_datetime(self):
-        self.assertEqual(datetime, type(Amenity().created_at))
+        self.assertEqual(datetime, type(Review().created_at))
 
     def test_updated_at_is_datetime(self):
-        self.assertEqual(datetime, type(Amenity().updated_at))
+        self.assertEqual(datetime, type(Review().updated_at))
 
     def test_uniqueIds(self):
-        model1 = Amenity()
-        model2 = Amenity()
+        model1 = Review()
+        model2 = Review()
         self.assertNotEqual(model1.id, model2.id)
 
     def test_diff_created_at(self):
-        model1 = Amenity()
+        model1 = Review()
         sleep(1)
-        model2 = Amenity()
+        model2 = Review()
         self.assertLess(model1.created_at, model2.created_at)
 
     def test_diff_updated_at(self):
-        model1 = Amenity()
+        model1 = Review()
         sleep(1)
-        model2 = Amenity()
+        model2 = Review()
         self.assertLess(model1.updated_at, model2.updated_at)
 
     def test_storage_new(self):
-        self.assertIn(Amenity(), models.storage.all().values())
+        self.assertIn(Review(), models.storage.all().values())
 
     def test_str_representation(self):
         dt = datetime.today()
         dt_repr = repr(dt)
-        model = Amenity()
+        model = Review()
         model.id = "123456"
         model.created_at = model.updated_at = dt
         modelstr = model.__str__()
-        self.assertIn("[Amenity] (123456)", modelstr)
+        self.assertIn("[Review] (123456)", modelstr)
         self.assertIn("'id': '123456'", modelstr)
         self.assertIn("'created_at': " + dt_repr, modelstr)
         self.assertIn("'updated_at': " + dt_repr, modelstr)
 
 
-class TestAmenity_save(unittest.TestCase):
-    """Unittests save Amenity class."""
+class TestReview_save(unittest.TestCase):
+    """Unittests save Review class."""
     @classmethod
     def setUp(self):
         try:
@@ -77,14 +77,14 @@ class TestAmenity_save(unittest.TestCase):
             pass
 
     def test_save(self):
-        model = Amenity()
+        model = Review()
         sleep(1)
         first_updated_at = model.updated_at
         model.save()
         self.assertLess(first_updated_at, model.updated_at)
 
     def test_more_saves(self):
-        model1 = Amenity()
+        model1 = Review()
         sleep(1)
         updated_at1 = model1.updated_at
         model1.save()
@@ -95,22 +95,22 @@ class TestAmenity_save(unittest.TestCase):
         self.assertLess(updated_at2, model1.updated_at)
 
     def test_update_file(self):
-        model = Amenity()
+        model = Review()
         model.save()
-        modelId = "Amenity." + model.id
+        modelId = "Review." + model.id
         with open("file.json", "r") as f:
             self.assertIn(modelId, f.read())
 
 
-class TestAmenity_to_dict(unittest.TestCase):
-    """Unittests to_dict Amenity class."""
+class TestReview_to_dict(unittest.TestCase):
+    """Unittests to_dict Review class."""
 
     def test_to_dict_type(self):
-        model = Amenity()
+        model = Review()
         self.assertTrue(dict, type(model.to_dict()))
 
     def test_to_dict_correct_data(self):
-        model = Amenity()
+        model = Review()
         self.assertIn("id", model.to_dict())
         self.assertIn("created_at", model.to_dict())
         self.assertIn("updated_at", model.to_dict())

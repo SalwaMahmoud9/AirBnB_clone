@@ -29,7 +29,6 @@ def parse(arg):
         retl = [i.strip(",") for i in lexer]
         retl.append(curly_braces.group())
         return retl
-    
 
 
 class HBNBCommand(cmd.Cmd):
@@ -48,7 +47,7 @@ class HBNBCommand(cmd.Cmd):
         "Amenity",
         "Review"
     }
-    
+
     def default(self, arg):
         """Default behavior for cmd module when input is invalid"""
         argdict = {
@@ -118,9 +117,9 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
         except NameError:
             print("** class doesn't exist **")
-            
+
     def do_show(self, arg):
-        """Prints the string representation of 
+        """Prints the string representation of
         an instance based on the class name and id."""
         argl = parse(arg)
         objdict = storage.all()
@@ -153,7 +152,7 @@ class HBNBCommand(cmd.Cmd):
             storage.save()
 
     def do_all(self, arg):
-        """Prints all string representation of 
+        """Prints all string representation of
         all instances based or not on the class name."""
         argl = parse(arg)
         if len(argl) > 0 and argl[0] not in HBNBCommand.__classes:
@@ -168,7 +167,7 @@ class HBNBCommand(cmd.Cmd):
             print(objl)
 
     def do_update(self, arg):
-        """Updates an instance based on the class name and id by 
+        """Updates an instance based on the class name and id by
         adding or updating attribute (save the change into the JSON file)."""
         argl = parse(arg)
         objdict = storage.all()
@@ -212,7 +211,7 @@ class HBNBCommand(cmd.Cmd):
                 else:
                     obj.__dict__[k] = v
         storage.save()
- 
+
     def do_count(self, arg):
         """to retrieve the number of instances of a class."""
         argl = parse(arg)
@@ -220,7 +219,7 @@ class HBNBCommand(cmd.Cmd):
         for obj in storage.all().values():
             if argl[0] == obj.__class__.__name__:
                 count += 1
-        print(count)    
+        print(count)
 
 
 if __name__ == "__main__":

@@ -48,7 +48,7 @@ class FileStorage:
             obj_dict[key] = value.to_dict()
         with open(self.__file_path, 'w', encoding="UTF-8") as file:
             json.dump(obj_dict, file)
-    
+
     def all(self):
         """returns the dictionary __objects"""
         return self.__objects

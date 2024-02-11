@@ -1,14 +1,14 @@
 #!/usr/bin/python3
 """Console."""
-import cmd
 import re
+import cmd
 from shlex import split
 from models import storage
 from models.base_model import BaseModel
 from models.user import User
+from models.place import Place
 from models.state import State
 from models.city import City
-from models.place import Place
 from models.amenity import Amenity
 from models.review import Review
 
@@ -41,31 +41,32 @@ class HBNBCommand(cmd.Cmd):
     __classes = {
         "BaseModel",
         "User",
+        "Place",
         "State",
         "City",
-        "Place",
         "Amenity",
         "Review"
     }
 
     def do_quit(self, args):
-        '''Quit command to exit the program
+        '''Quit command to exit the program.
         '''
         quit()
         return True
 
     def do_EOF(self, args):
-        '''Handles end of file
+        '''Handles end of file.
         '''
         return True
 
     def emptyline(self):
-        '''enter dont execute anything
+        '''enter dont execute anything.
         '''
         pass
 
     def do_create(self, line):
-        """Creates a new instance of BaseModel."""
+        """Creates a new instance of BaseModel.
+        """
         try:
             if not line:
                 raise SyntaxError()
@@ -97,8 +98,8 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
 
     def do_show(self, arg):
-        """Prints the string representation of an instance
-        based on the class name and id."""
+        """Prints the string representation of 
+        an instance based on the class name and id."""
         argl = parse(arg)
         objdict = storage.all()
         if len(argl) == 0:
@@ -113,7 +114,8 @@ class HBNBCommand(cmd.Cmd):
             print(objdict["{}.{}".format(argl[0], argl[1])])
 
     def do_destroy(self, arg):
-        """Deletes an instance based on the class name and id."""
+        """Deletes an instance based on the class name and id.
+        """
         argl = parse(arg)
         objdict = storage.all()
         if len(argl) == 0:
@@ -129,8 +131,8 @@ class HBNBCommand(cmd.Cmd):
             storage.save()
 
     def do_all(self, arg):
-        """Prints all string representation of all
-        instances based or not on the class name."""
+        """Prints all string representation of 
+        all instances based or not on the class name."""
         argl = parse(arg)
         if len(argl) > 0 and argl[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
@@ -144,8 +146,8 @@ class HBNBCommand(cmd.Cmd):
             print(objl)
 
     def do_update(self, arg):
-        """Updates an instance based on the class name and id by adding or
-        updating attribute (save the change into the JSON file)."""
+        """Updates an instance based on the class name and id by 
+        adding or updating attribute (save the change into the JSON file)."""
         argl = parse(arg)
         objdict = storage.all()
 

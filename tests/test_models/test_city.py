@@ -23,6 +23,12 @@ class TestCity_instance(unittest.TestCase):
     def test_updated_at_is_datetime(self):
         self.assertEqual(datetime, type(City().updated_at))
 
+    def test_state_id_is_str(self):
+        self.assertEqual(str, type(City().updated_at))
+
+    def test_name_is_str(self):
+        self.assertEqual(str, type(City().updated_at))
+
     def test_uniqueIds(self):
         model1 = City()
         model2 = City()
@@ -115,6 +121,13 @@ class TestCity_to_dict(unittest.TestCase):
         self.assertIn("created_at", model.to_dict())
         self.assertIn("updated_at", model.to_dict())
         self.assertIn("__class__", model.to_dict())
+
+    def test_to_dict(self):
+        model = City()
+        model.name = "name"
+        model.age = 100
+        self.assertEqual("name", model.name)
+        self.assertIn("age", model.to_dict())
 
 
 if __name__ == "__main__":

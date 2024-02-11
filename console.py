@@ -15,6 +15,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_quit(self, args):
         '''<Quit> Command To Exit The Program'''
+        quit()
         return True
 
     def do_EOF(self, args):
@@ -26,6 +27,6 @@ class HBNBCommand(cmd.Cmd):
            press enter an empty line
         '''
         pass
-    
+
 if __name__ == "__main__":
     HBNBCommand().cmdloop()

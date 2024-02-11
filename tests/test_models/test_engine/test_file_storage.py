@@ -62,7 +62,6 @@ class TestFileStorage_functions(unittest.TestCase):
 
     def test_new(self):
         bm = BaseModel()
-        us = User()
         models.storage.new(bm)
         self.assertIn("BaseModel." + bm.id, models.storage.all().keys())
         self.assertIn(bm, models.storage.all().values())

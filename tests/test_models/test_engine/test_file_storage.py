@@ -55,61 +55,56 @@ class TestFileStorage_functions(unittest.TestCase):
         FileStorage._FileStorage__objects = {}
 
     def test_style_check(self):
-        """
-        Tests pep8 style
-        """
+        """Tests pep8 style"""
         style = pep8.StyleGuide(quiet=True)
-        p = style.check_files(['models/engine/file_storage.py'])
-        self.assertEqual(p.total_errors, 0, "fix pep8")
+        fileStyle = style.check_files(['models/engine/file_storage.py'])
+        self.assertEqual(fileStyle.total_errors, 0, "fix pep8")
 
     def test_all(self):
         self.assertEqual(dict, type(models.storage.all()))
 
-    def test_all_with_arg(self):
+    def test_all_with_data(self):
         with self.assertRaises(TypeError):
             models.storage.all(None)
 
     def test_new(self):
-        bm = BaseModel()
-        us = User()
-        models.storage.new(bm)
-        self.assertIn("BaseModel." + bm.id, models.storage.all().keys())
-        self.assertIn(bm, models.storage.all().values())
+        model = BaseModel()
+        models.storage.new(model)
+        self.assertIn("BaseModel." + model.id, models.storage.all().keys())
+        self.assertIn(model, models.storage.all().values())
 
-    def test_new_with_args(self):
+    def test_new_with_data(self):
         with self.assertRaises(TypeError):
             models.storage.new(BaseModel(), 1)
 
     def test_save(self):
-        bm = BaseModel()
-        models.storage.new(bm)
+        model = BaseModel()
+        models.storage.new(model)
         models.storage.save()
         save_text = ""
-        with open("file.json", "r") as f:
-            save_text = f.read()
-            self.assertIn("BaseModel." + bm.id, save_text)
+        with open("file.json", "r") as file:
+            save_text = file.read()
+            self.assertIn("BaseModel." + model.id, save_text)
 
-    def test_save_with_arg(self):
+    def test_save_with_data(self):
         with self.assertRaises(TypeError):
             models.storage.save(None)
 
     def test_reload(self):
-        """
-        Tests method: reload (reloads objects from string file)
-        """
+        """Tests method"""
         a_storage = FileStorage()
         try:
             os.remove("file.json")
         except FileNotFoundError:
             pass
-        with open("file.json", "w") as f:
-            f.write("{}")
-        with open("file.json", "r") as r:
-            for line in r:
+        with open("file.json", "w") as file:
+            file.write("{}")
+        with open("file.json", "r") as fileR:
+            for line in fileR:
                 self.assertEqual(line, "{}")
         self.assertIs(a_storage.reload(), None)
 
-    def test_reload_with_arg(self):
+    def test_reload_with_data(self):
         with self.assertRaises(TypeError):
             models.storage.reload(None)
 

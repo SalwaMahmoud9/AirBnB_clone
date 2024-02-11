@@ -47,11 +47,11 @@ class TestState_instance(unittest.TestCase):
         dt = datetime.today()
         dt_repr = repr(dt)
         model = State()
-        model.id = "123456"
+        model.id = "100000"
         model.created_at = model.updated_at = dt
         modelstr = model.__str__()
-        self.assertIn("[State] (123456)", modelstr)
-        self.assertIn("'id': '123456'", modelstr)
+        self.assertIn("[State] (100000)", modelstr)
+        self.assertIn("'id': '100000'", modelstr)
         self.assertIn("'created_at': " + dt_repr, modelstr)
         self.assertIn("'updated_at': " + dt_repr, modelstr)
 
